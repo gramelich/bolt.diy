@@ -1,3 +1,5 @@
+// vite.config.ts
+
 import { cloudflareDevProxyVitePlugin as remixCloudflareDevProxy, vitePlugin as remixVitePlugin } from '@remix-run/dev';
 import UnoCSS from 'unocss/vite';
 import { defineConfig, type ViteDevServer } from 'vite';
@@ -126,7 +128,7 @@ export default defineConfig((config) => {
       config.mode !== 'test' && remixCloudflareDevProxy(),
       remixVitePlugin({
         // 🚨 CORREÇÃO APLICADA AQUI 🚨
-        serverBuildFile: 'server.js', 
+        serverBuildFile: 'index.js',
         future: {
           v3_fetcherPersist: true,
           v3_relativeSplatPath: true,
