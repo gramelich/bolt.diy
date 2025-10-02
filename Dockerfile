@@ -1,14 +1,13 @@
 ARG BASE=node:20.18.0
 FROM ${BASE} AS base
 
+# Instalar git
+RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 
 # Install dependencies (this step is cached as long as the dependencies don't change)
 COPY package.json pnpm-lock.yaml ./
-
-#RUN npm install -g corepack@latest
-
-#RUN corepack enable pnpm && pnpm install
 RUN npm install -g pnpm && pnpm install
 
 # Copy the rest of your app's source code
@@ -64,7 +63,7 @@ FROM base AS bolt-ai-development
 
 # Define the same environment variables for development
 ARG GROQ_API_KEY
-ARG HuggingFace 
+ARG HuggingFace_API_KEY
 ARG OPENAI_API_KEY
 ARG ANTHROPIC_API_KEY
 ARG OPEN_ROUTER_API_KEY
@@ -92,4 +91,5 @@ ENV GROQ_API_KEY=${GROQ_API_KEY} \
     RUNNING_IN_DOCKER=true
 
 RUN mkdir -p ${WORKDIR}/run
+
 CMD pnpm run dev --host
